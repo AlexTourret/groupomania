@@ -3,9 +3,21 @@ const express = require('express');
 const app = express();
 const userRoutes = require('./routes/user');
 const path = require("path");
-const rateLimit = require('express-rate-limit')
+const rateLimit = require('express-rate-limit');
+const sequelize = require('./models/database');
+const User = require('./models/users');
 
 require('dotenv').config();
+
+sequelize.authenticate()
+ .then(() => {
+   console.log('La connection a pu être établie.');
+ })
+ .catch(err => {
+   console.error('Oups!! la base ne répond pas', err);
+ });
+//synchro du modele sauf celle déjà créée en base
+sequelize.sync();
 
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
@@ -29,6 +41,6 @@ app.use((req, res, next) => {
 
 
 app.use(limiter);
-app.use('/api/auth',userRoutes);
+app.use('/api',userRoutes);
 
 module.exports = app;
