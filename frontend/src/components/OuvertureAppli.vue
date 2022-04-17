@@ -36,6 +36,12 @@ li {
 a {
   color: #ff8080;
 }
+input {
+  border: 2px solid #ff8080;
+  border-radius: 12px;
+  padding: 5px;
+  width: 300px;
+}
 button {
   background-color: #ff8080;
   border: none;
