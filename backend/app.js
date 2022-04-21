@@ -41,6 +41,6 @@ app.use((req, res, next) => {
 
 
 app.use(limiter);
-app.use('/api',userRoutes);
+app.use('/api/auth',userRoutes);
 
 module.exports = app;
