@@ -1,21 +1,53 @@
 <template>
   <div class="hello">
-    <ul><label for="mailadress">Adresse e-mail {{ usr }}</label></ul>
+    <ul><label for="mailadress">Adresse e-mail</label></ul>
     <ul><li><input v-model="usr" id="login_usr" name="login_usr"  /></li></ul>
-    <ul><label for="password">Mot de passe {{ mdp }}</label></ul>
+    <ul><label for="password">Mot de passe</label></ul>
     <ul><li><input v-model="mdp" id="mdp_usr" name="mdp_usr" type="password"/></li></ul>
-    <ul><li><button>Login</button></li></ul>  
+    <ul><li><button @click="getUser">Login</button></li></ul>  
+    <ul><li><label for="log">{{ token }}</label></li></ul>
   </div>
 </template> 
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'OuvertureAppli',
   data() {
     return {
       usr: "",
-      mdp: ""
+      mdp: "",
+      token: null,
     }
+  },
+  methods :{
+    getUser : function(){
+      // const json = JSON.stringify({"usr_email" : this.usr, "usr_pwd" : this.mdp})
+      // console.log(json);
+      axios.post('http://localhost:3000/api/auth/login?id='+this.usr,{"usr_email" : this.usr, "usr_pwd" : this.mdp})
+            
+      .then(response=> {
+        // en cas de réussite de la requête
+        this.token = response.data[0];
+        
+    })  
+    }
+  },
+  mounted(){
+    axios.get('http://localhost:3000/api/all')
+    .then(response=> {
+      // en cas de réussite de la requête
+      this.reponse = response.data[0];
+      console.log(response.data[0].usr_nom);
+    })
+    .catch(function (error) {
+      // en cas d’échec de la requête
+      console.log(error);
+    })
+    .then(function () {
+      // dans tous les cas
+  });
   }    
 }
 </script>
