@@ -33,23 +33,23 @@ export default {
         
     })  
     }
-  },
-  mounted(){
-    axios.get('http://localhost:3000/api/all')
-    .then(response=> {
-      // en cas de réussite de la requête
-      this.reponse = response.data[0];
-      console.log(response.data[0].usr_nom);
-    })
-    .catch(function (error) {
-      // en cas d’échec de la requête
-      console.log(error);
-    })
-    .then(function () {
-      // dans tous les cas
-  });
+  }//,
+  // mounted(){
+  //   axios.get('http://localhost:3000/api/auth/all')
+  //   .then(response=> {
+  //     // en cas de réussite de la requête
+  //     this.reponse = response.data[0];
+  //     console.log(response.data[0].usr_nom);
+  //   })
+  //   .catch(function (error) {
+  //     // en cas d’échec de la requête
+  //     console.log(error);
+  //   })
+  //   .then(function () {
+  //     // dans tous les cas
+  // });
   }    
-}
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
