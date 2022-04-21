@@ -2,7 +2,8 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/Icon-titre.png">
     <OuvertureAppli :usr="usr"
-                    :mdp="mdp" />
+                    :mdp="mdp"
+                    :reponse="reponse" />
   </div>
 </template>
 
@@ -18,7 +19,8 @@ export default {
   data() {
 		return {
       usr: "",
-      mdp: ""
+      mdp: "",
+      token: ""
     }
   } 
 }
