@@ -2,24 +2,44 @@
   <li>
     <div class="container">
       <span class="itemlabel"><label for="nom">Nom </label></span>
-      <span class="item"><input id="nom_usr" name="nom_usr"/></span>
+      <span class="item"><input v-model="nom" id="nom_usr" name="nom_usr"/></span>
     </div>  
   <div class="container">  
     <span class="itemlabel"><label for="mailadress">Adresse e-mail </label></span>
-    <span class="item"><input id="login_usr" name="login_usr"/></span>
+    <span class="item"><input v-model="usr" id="login_usr" name="login_usr"/></span>
   </div>
   <div class="container">  
     <span class="itemlabel"><label for="password">Mot de passe </label></span>
-    <span class="item"><input id="mdp_usr" name="mdp_usr" type="password"/>
+    <span class="item"><input v-model="mdp" id="mdp_usr" name="mdp_usr" type="password"/>
     </span>
   </div>
-    <ul><li><button>Sign up</button></li></ul>  
+    <ul><li><button @click="createUser">Sign up</button></li></ul>  
   </li>
 </template> 
 
 <script>
+import axios from 'axios';
 export default {
-  name: 'SignupApp'
+  name: 'SignupApp',
+  data() {
+    return {
+      usr: "",
+      mdp: "",
+      nom: "",
+    }
+  },
+  methods :{
+    createUser : function(){
+      console.log({"usr_nom":this.nom,"usr_email" : this.usr, "usr_pwd" : this.mdp});
+      axios.post('http://localhost:3000/api/auth/',{"usr_nom":this.nom,"usr_email" : this.usr, "usr_pwd" : this.mdp})
+      .then(response=> {
+        // en cas de réussite de la requête
+        //this.token = response.data[0];
+        console.log(response.data[0]);
+        
+    })  
+    }
+  },
 }
 </script>
 

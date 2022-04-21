@@ -3,7 +3,7 @@
     <img alt="Vue logo" src="../assets/Icon-titre.png">
     <OuvertureAppli :usr="usr"
                     :mdp="mdp"
-                    :reponse="reponse" />
+                    :token="token" />
   </div>
 </template>
 

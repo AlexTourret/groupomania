@@ -1,7 +1,9 @@
 <template>
   <div class="signup">
     <!-- <div id="app" class="app"> -->
-    <SignUpApp />
+    <SignUpApp :usr="usr"
+                :mdp="mdp"
+                :nom="nom"/>
     <!-- </div> -->
   </div>
 </template>
@@ -14,6 +16,14 @@ export default {
   name: 'SignUpView',
   components: {
     SignUpApp
-  }
+  },
+  data() {
+		return {
+      nom: "",
+      usr: "",
+      mdp: ""
+      
+    }
+  } 
 }
 </script>
