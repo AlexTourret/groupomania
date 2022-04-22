@@ -29,25 +29,12 @@ export default {
             
       .then(response=> {
         // en cas de réussite de la requête
-        this.token = response.data[0];
-        
+        let token   = JSON.stringify(response.data.token);
+        localStorage.setItem("Token", token);
+        this.$router.push("/about");
     })  
     }
-  }//,
-  // mounted(){
-  //   axios.get('http://localhost:3000/api/auth/all')
-  //   .then(response=> {
-  //     // en cas de réussite de la requête
-  //     this.reponse = response.data[0];
-  //     console.log(response.data[0].usr_nom);
-  //   })
-  //   .catch(function (error) {
-  //     // en cas d’échec de la requête
-  //     console.log(error);
-  //   })
-  //   .then(function () {
-  //     // dans tous les cas
-  // });
+   }
   }    
 
 </script>
