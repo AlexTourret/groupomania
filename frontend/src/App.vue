@@ -1,31 +1,21 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/signup">Sign up</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <section class="app">
+    <router-view></router-view>
+  </section>
 </template>
 
-<style lang="scss">
-#app {
+<style>
+.app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding: 0 10vw 0 10vw;
   text-align: center;
-  color: #2c3e50;
+  color: #000000;
 }
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #ff8080;
-    }
+@media screen and (max-width:1024px) {
+  .app {
+    padding: 0;
   }
 }
 </style>

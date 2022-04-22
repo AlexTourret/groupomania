@@ -35,6 +35,7 @@ export default {
       .then(response=> {
         // en cas de réussite de la requête
         //this.token = response.data[0];
+        localStorage.token=response.data[0]; 
         console.log(response.data[0]);
         
     })  
