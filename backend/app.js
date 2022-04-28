@@ -2,10 +2,14 @@
 const express = require('express');
 const app = express();
 const userRoutes = require('./routes/user');
+const commentRoutes = require('./routes/comment');
+const postRoutes = require('./routes/post');
 const path = require("path");
 const rateLimit = require('express-rate-limit');
 const sequelize = require('./models/database');
 const User = require('./models/users');
+const Post = require('./models/posts');
+const Comment = require('./models/comments');
 
 require('dotenv').config();
 
@@ -41,6 +45,9 @@ app.use((req, res, next) => {
 
 
 app.use(limiter);
+app.use("/images", express.static(path.join(__dirname, 'images')));
 app.use('/api/auth',userRoutes);
+app.use('/api/posts',postRoutes);
+app.use('/api/comments',commentRoutes);
 
 module.exports = app;
