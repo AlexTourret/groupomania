@@ -31,7 +31,6 @@ exports.getAllUser = (req, res, next) => {
 };
 
 exports.getOneUser = (req, res, next) => {
-  return res.status(200).json({message:'Email erronée, format correct abc@xyz.com'});
   user.findOne({ where: { id: req.params.id } })
   .then(user => res.status(200).json(user))
   .catch(error => res.status(400).json({error}));
@@ -76,9 +75,9 @@ exports.login = (req, res, next) => {
             return res.status(401).json({ error: 'Mot de passe incorrect !' });
           }
           res.status(200).json({
-            userId: user._id,
+            userId: user.id,
             token: jwt.sign(
-              { userId: user._id },
+              { userId: user.id },
               process.env.TOKEN,
               { expiresIn: '24h' }
             )
