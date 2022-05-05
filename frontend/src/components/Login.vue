@@ -1,9 +1,9 @@
 <template>
   <div class="hello">
     <ul><label for="mailadress">Adresse e-mail</label></ul>
-    <ul><li><input v-model="usr" id="login_usr" name="login_usr"  /></li></ul>
+    <ul><li><input v-model="usr" id="login_usr" name="login_usr" /></li></ul>
     <ul><label for="password">Mot de passe</label></ul>
-    <ul><li><input v-model="mdp" id="mdp_usr" name="mdp_usr" type="password"/></li></ul>
+    <ul><li><input v-model="mdp" id="mdp_usr" name="mdp_usr" type="password" /></li></ul>
     <ul><li><button @click="getUser">Login</button></li></ul>  
     <ul><li><label for="log">{{ token }}</label></li></ul>
   </div>
@@ -13,7 +13,7 @@
 import axios from 'axios';
 
 export default {
-  name: 'OuvertureAppli',
+  name: 'LoginPage',
   data() {
     return {
       usr: "",
@@ -22,17 +22,21 @@ export default {
     }
   },
   methods :{
-    getUser : function(){
+    async getUser(){
       // const json = JSON.stringify({"usr_email" : this.usr, "usr_pwd" : this.mdp})
       // console.log(json);
-      axios.post('http://localhost:3000/api/auth/login?id='+this.usr,{"usr_email" : this.usr, "usr_pwd" : this.mdp})
-            
-      .then(response=> {
+      
+      let response = await axios.post('http://localhost:3000/api/auth/login?id='+this.usr,
+                  {"usr_email" : this.usr, "usr_pwd" : this.mdp})
+      
+      
         // en cas de réussite de la requête
-        let token   = JSON.stringify(response.data.token);
+        const token   = JSON.stringify(response.data.token);
+        const userId  = JSON.stringify(response.data.userId);
         localStorage.setItem("Token", token);
-        this.$router.push("/about");
-    })  
+        localStorage.setItem("userID", userId);
+        this.$router.push("/comments");
+    
     }
    }
   }    
