@@ -28,7 +28,8 @@ export default {
       
       let response = await axios.post('http://localhost:3000/api/auth/login?id='+this.usr,
                   {"usr_email" : this.usr, "usr_pwd" : this.mdp})
-      
+      this.usr = "alexandretourret@ciblemut.net";
+      this.mdp = "Lucas_0503";
       
         // en cas de réussite de la requête
         const token   = JSON.stringify(response.data.token);
