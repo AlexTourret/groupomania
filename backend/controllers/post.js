@@ -2,12 +2,18 @@
 
 const jwt = require('jsonwebtoken');
 const Post = require('../models/posts');
+const Comment = require('../models/comments');
+const User = require('../models/users');
 const sequelize = require('../models/database');
 const { Op } = require('sequelize');
 const fs = require('fs');
 
 exports.getAllPosts = (req, res, next) => {
-    Post.findAll()
+    Post.findAll({
+        include: [{
+            model : User
+        }]}
+    )
     .then(posts => res.status(200).json(posts))
     .catch(error => res.status(400).json({ error }));
   };
