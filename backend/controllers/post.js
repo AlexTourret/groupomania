@@ -19,7 +19,11 @@ exports.getAllPosts = (req, res, next) => {
   };
 
 exports.getOnePost = (req, res, nest) => {
-    Post.findOne({ where: { id: req.params.id } })
+    Post.findOne({ 
+        where: { id: req.params.id } ,
+        include: [{
+            model : User
+        }]})
     .then(post => res.status(200).json(post))
     .catch(error => res.status(400).json({error}));
 };
@@ -45,7 +49,7 @@ exports.createPost =(req,res,next)=> {
   
 exports.deletePost = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, process.env.TOKEN);
+    const decodedToken = jwt.verify(token.replaceAll("\"",""), process.env.TOKEN );
     const userId = decodedToken.userId
    
     Post.findOne(
@@ -78,7 +82,7 @@ exports.deletePost = (req, res, next) => {
 
 exports.modifyPost = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, process.env.TOKEN);
+    const decodedToken = jwt.verify(token.replaceAll("\"",""), process.env.TOKEN );
     const userId = decodedToken.userId
 
     if (req.file) {

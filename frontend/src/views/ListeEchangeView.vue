@@ -10,10 +10,13 @@
     <div><input v-model="posts.message" name="message" /></div> 
     <button  @click="createPost()" class="button">Créer une nouvelle discussion</button>
     </div>
+    <article>
     <div v-if="posts.length == 0">
       <p>Désolé il n'y a aucune publication...</p>
     </div>
-    <div v-else :key="post.id" v-for="post in posts">
+    
+    <div v-else :key="post.id" v-for="post in posts" class="comment">
+      <router-link :to="`/unPost/${post.id}`" >
       <div>
           <h2>{{ post.title }}</h2>
           <p class="info">
@@ -23,8 +26,9 @@
               à <b>{{ hourFormat(post.created_date) }}</b>
           </p>
       </div>
+      </router-link>
     </div>
-    
+    </article>
     <Footer />                
   </div>
 </template>
@@ -75,9 +79,11 @@ export default {
                                                       "message": this.posts.message,
                                                       "user_id":this.posts.userId}, config)
                 
-        .then(data => (this.posts = data))
+        .then(() => 
+          this.$router.go("/")
+        )
         .catch(error => console.log(error))
-        
+         
         },
         dateFormat(createdDate) {
             const date = new Date(createdDate)
@@ -112,7 +118,7 @@ li {
   margin: 0 10px;
 }
 a {
-  color: #ff8080;
+  color: #000000;
 }
 info {
     font-size: 0.8vw;
@@ -150,5 +156,50 @@ button2 {
   font-size: 8px;
   margin: 2px 1px;
   cursor: pointer;
+}
+post {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #000000;
+    width: 300px;
+}
+.comment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid #ff8080;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    
+}
+@media screen and (max-width:1024px) {
+    
+    .header,
+    .content {
+        width: 90%;
+    }
+}
+@media screen and (max-width:768px) {
+    
+    .header,
+    .content {
+        width: 98%;
+    }
+    .modif{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .espacement{
+        margin: 0;
+    }
+    .button {
+        width: 50%;
+    }
+    .createcomment {
+        width: 100%;
+    }
 }
 </style>

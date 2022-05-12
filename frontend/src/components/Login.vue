@@ -22,22 +22,21 @@ export default {
     }
   },
   methods :{
-    async getUser(){
-      // const json = JSON.stringify({"usr_email" : this.usr, "usr_pwd" : this.mdp})
+    getUser(){
+      
       // console.log(json);
       
-      let response = await axios.post('http://localhost:3000/api/auth/login?id='+this.usr,
-                  {"usr_email" : this.usr, "usr_pwd" : this.mdp})
-      this.usr = "alexandretourret@ciblemut.net";
-      this.mdp = "Lucas_0503";
-      
+      //const json = JSON.stringify({"usr_email" : this.usr, "usr_pwd" : this.mdp})
+      axios.post('http://localhost:3000/api/auth/login?id='+this.usr,{"usr_email" : this.usr, "usr_pwd" : this.mdp})
+      .then(response => {
         // en cas de réussite de la requête
+        console.log(response.data)
         const token   = JSON.stringify(response.data.token);
         const userId  = JSON.stringify(response.data.userId);
         localStorage.setItem("Token", token);
         localStorage.setItem("userID", userId);
         this.$router.push("/comments");
-    
+      })
     }
    }
   }    
