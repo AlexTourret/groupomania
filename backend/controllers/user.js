@@ -31,7 +31,7 @@ exports.getAllUser = (req, res, next) => {
 };
 
 exports.getOneUser = (req, res, next) => {
-  user.findOne({ where: { id: req.params.id } })
+  User.findOne({ where: { id: req.params.id } })
   .then(user => res.status(200).json(user))
   .catch(error => res.status(400).json({error}));
 };
@@ -57,6 +57,7 @@ exports.createUser =(req,res,next)=> {
 };
 
 exports.login = (req, res, next) => {
+  console.log(req.body.usr_email);
   User.findOne({
     where :{
       'usr_email' : {

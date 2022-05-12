@@ -3,10 +3,16 @@
 const jwt = require('jsonwebtoken');
 const Comment = require('../models/comments');
 const sequelize = require('../models/database');
+const User = require('../models/users');
 const { Op } = require('sequelize');
 
 exports.getPostComment = (req, res, next) => {
-    Comment.findAll({ where: { post_id: req.params.id } })
+    Comment.findAll({
+        where: { post_id: req.params.id },
+        include: [{
+            model : User
+        }]
+     })
     .then(comments => res.status(200).json(comments))
     .catch(error => res.status(400).json({error}));
 };
@@ -23,7 +29,7 @@ exports.createComment =(req,res,next)=> {
 
 exports.deleteComment = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, process.env.TOKEN);
+    const decodedToken = jwt.verify(token.replaceAll("\"",""), process.env.TOKEN );
     const userId = decodedToken.userId
    
     Comment.findOne(
@@ -46,7 +52,7 @@ exports.deleteComment = (req, res, next) => {
 
 exports.modifyComment = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, process.env.TOKEN);
+    const decodedToken = jwt.verify(token.replaceAll("\"",""), process.env.TOKEN );
     const userId = decodedToken.userId
     
 
