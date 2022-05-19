@@ -21,10 +21,12 @@ const user = sequelize.define('user', {
     usr_nom: { type: Sequelize.STRING, allowNull:false },
   
     
-    // Column-3, email
+    // Column-3, pwd
     usr_pwd: { type: Sequelize.STRING, allowNull:false },
-  
-    // Column-4, default values for
+    
+    // Column-4, role
+    usr_role: { type: Sequelize.INTEGER, defaultValue:0 },
+    // Column-5, default values for
     // dates => current time
     usr_Datemaj: { type: Sequelize.DATE, 
             defaultValue: Sequelize.NOW },
