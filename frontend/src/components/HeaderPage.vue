@@ -3,7 +3,8 @@
     <nav><img alt="Vue logo" src="../assets/Icon-titre2.png"></nav>
   <nav>
     <nav>
-      <a><router-link to="/login">Connexion</router-link></a>
+      <a v-if="user_id" class="link disconnect" @click="disconnectUser()" ><label>Déconnexion</label></a>  
+      <a v-else><router-link to="/login">Connexion</router-link></a>
       <a><router-link to="/signup">S'inscrire</router-link></a>
     </nav>
   </nav>
@@ -13,7 +14,24 @@
 
 <script>
 export default {
-  name: 'HeaderPage'
+  name: 'HeaderPage',
+  data () {
+    return {
+        user_id: ''
+    }
+  },
+  methods: {
+    disconnectUser() {
+      localStorage.clear();
+      this.user_id =localStorage.getItem('userID');
+      console.log("disconnected:"+this.user_id);
+      this.$router.push("/")
+    }  
+  },
+  mounted(){
+    this.user_id = localStorage.getItem('userID');
+    console.log("mounted:"+this.user_id);
+  }
 }
 </script>
 
@@ -25,7 +43,9 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-
+label {
+  cursor : pointer
+}
 .container {
   display: flex;
   justify-content: left;
