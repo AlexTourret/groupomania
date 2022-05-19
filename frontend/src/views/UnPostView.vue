@@ -7,17 +7,20 @@
                         <h1>{{ post.title }}</h1>
                     </div>
                     <div>
+                        <p>{{ post.message }}</p>
+                    </div>
+                    <div>
                         <div class="info">
                             <p>
                                 Posté par 
                                 <b>{{ post.user.usr_nom }} </b>
-                                le <b>{{ dateFormat(post.created_date) }}</b>
-                                à <b>{{ hourFormat(post.created_date) }}</b><br>
+                                le <b>{{ dateFormat(post.createdAt) }}</b>
+                                à <b>{{ hourFormat(post.createdAt) }}</b><br>
                             </p>
-                            <p v-if="post.created_date != post.updated_date">
+                            <p v-if="post.createdAt != post.updatedAt">
                                 Modifié 
-                                le <b>{{ dateFormat(post.updated_date) }}</b>
-                                à <b>{{ hourFormat(post.updated_date) }}</b>
+                                le <b>{{ dateFormat(post.updatedAt) }}</b>
+                                à <b>{{ hourFormat(post.updatedAt) }}</b>
                             </p>
                         </div>
                     </div>
@@ -40,12 +43,12 @@
                             <p class="info">
                                 Posté par 
                                 <b>{{ comment.user.usr_nom }} </b>
-                                le <b>{{ dateFormat(comment.updated_date) }}</b>
-                                à <b>{{ hourFormat(comment.updated_date) }}</b>
+                                le <b>{{ dateFormat(comment.updatedAt) }}</b>
+                                à <b>{{ hourFormat(comment.updatedAt) }}</b>
                             </p>
                             <p>
                                 <button v-if="comment.user_id === id" @click="deleteComment(index)" class="button-comment"  aria-label="Supprimer ce commentaire"><img src="../assets/supprimer.png" />
-                                 <i class="far fa-trash-alt"></i></button>
+                                </button>
                             </p>
                         </div>                        
                         <hr>
@@ -82,9 +85,9 @@ export default {
         return {
             id_post: this.$route.params.id,
             post: {
-                content:'',
-                created_date:'',
-                updated_date:'',
+                message:'',
+                createdAt:'',
+                updatedAt:'',
                 id:'',
                 image:'',
                 title:'',
@@ -163,7 +166,7 @@ export default {
             }
         },
         modifyPost () {
-            this.$router.push(`/modifypost/${this.id_param}`)
+            this.$router.push(`/updatePost/${this.post.id}`)
         },
         createComment () {
             if( this.commentaire === ""){
@@ -253,35 +256,44 @@ textarea {
     flex-direction: column;
 }
 .button {
-    margin: 10px 0 30px 0;
-    padding: 5px 25px ;
-    border: 2px solid #ff8080;
-    border-radius: 10px;
-    background: #ffd7d7;
-    font-size: 1rem;
-    cursor: pointer;
+  background-color: #ff8080;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
 .buttonenvoyer,
 .buttonannuler {
-    margin: 10px 0 10px 0;
-    padding: 5px 30px ;
-    border: 2px solid #ff8080;
-    border-radius: 10px;
-    background: #ffd7d7;
-    font-size: 1rem;
-    cursor: pointer;
+  background-color: #ff8080;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
 .buttonannuler{
     margin-bottom: 40px;
 }
 .button-comment {
-    margin: 10px 0 0 0;
-    padding: 5px 5px ;
-    border: 2px solid #ff8080;
-    /* border-radius: 10px; */
-    background: #ffd7d7; 
-    font-size: 1rem;
-    cursor: pointer;
+  background-color: #ff8080;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
 .espacement {
     margin: 5px 0 0 10px;
@@ -291,13 +303,16 @@ textarea {
     color: #000000;
 }
 .comment-button {
-    margin: 10px 0 30px 0;
-    padding: 5px 30px ;
-    border: 2px solid #ff8080;
-    border-radius: 10px;
-    background: #ffd7d7;
-    font-size: 1rem;
-    cursor: pointer;
+  background-color: #ff8080;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
 .comment {
     border: 2px solid #000000;
