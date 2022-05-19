@@ -25,7 +25,8 @@ export default {
     getUser(){
       
       // console.log(json);
-      
+      this.usr = "alexandretourret@ciblemut.net";
+      this.mdp = "Lucas_0503";
       //const json = JSON.stringify({"usr_email" : this.usr, "usr_pwd" : this.mdp})
       axios.post('http://localhost:3000/api/auth/login?id='+this.usr,{"usr_email" : this.usr, "usr_pwd" : this.mdp})
       .then(response => {

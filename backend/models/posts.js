@@ -6,14 +6,10 @@ const post = sequelize.define('post', {
 
     title: {type: Sequelize.STRING,allowNull: false},
     image: {type: Sequelize.STRING },
-    created_date: {type: Sequelize.DATE,defaultValue: Sequelize.NOW,allowNull: false},
-    updated_date: {type: Sequelize.DATE,defaultValue: Sequelize.NOW,allowNull: false},
     message: {type: Sequelize.TEXT,allowNull: false},
-    user_id: {type: Sequelize.INTEGER,allowNull: false}
-
-},
-{
-    timestamps: false
+    user_id: {type: Sequelize.INTEGER,allowNull: false},
+    createdAt: Sequelize.DATE,
+    updatedAt: Sequelize.DATE,
 })
 post.hasMany(comment, {
     foreignKey: 'post_id',
