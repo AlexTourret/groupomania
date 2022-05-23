@@ -29,6 +29,7 @@ exports.getOnePost = (req, res, nest) => {
 };
 
 exports.createPost =(req,res,next)=> {
+    
     if (req.file) {
         Post.create({
             title : req.body.titre,
@@ -84,7 +85,7 @@ exports.modifyPost = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token.replaceAll("\"",""), process.env.TOKEN );
     const userId = decodedToken.userId
-
+    //console.log(req.file);
     if (req.file) {
         Post.findOne({ where: { id: req.params.id } 
         }) 
@@ -148,4 +149,29 @@ exports.modifyPost = (req, res, next) => {
          })
          .catch(error => res.status(400).json({error}));    
     }
-  };  
+  }; 
+exports.moderatePost = (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token.replaceAll("\"",""), process.env.TOKEN );
+    const userId = decodedToken.userId;
+    const role = decodedToken.role
+    console.log(userId);
+    console.log(role);
+    Post.findOne({ where: { id: req.params.id }})
+    .then(() => {
+        if (role === 1) {
+            const moderation = {
+                moderate : req.body.moderate
+            };
+
+            Post.update(moderation, { where: { id: req.params.id }})
+            .then(() => { res.status(201).json({ message: 'Moderation effectuée !' })})
+            .catch(error => res.status(400).json({ error }));
+        } else {
+            res.status(401).json({
+                message: 'Requête non autorisée !' 
+            });
+        }
+    })
+    .catch(error => res.status(500).json({ error }));
+}   

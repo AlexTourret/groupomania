@@ -11,6 +11,7 @@ router.get('/all',auth, postCtrl.getAllPosts);
 router.get('/:id',auth, postCtrl.getOnePost);
 router.post('/', auth, multer, postCtrl.createPost); 
 router.delete('/:id', auth, multer, postCtrl.deletePost); 
-router.put('/:id', auth, multer, postCtrl.modifyPost); 
+router.put('/:id', auth, multer, postCtrl.modifyPost);
+router.put('/moderate/:id', auth, postCtrl.moderatePost); 
 
 module.exports = router;

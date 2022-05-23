@@ -1,12 +1,12 @@
 <template>
-  <div class="hello">
+  <header class="hello">
     <ul><label for="mailadress">Adresse e-mail</label></ul>
     <ul><li><input v-model="usr" id="login_usr" name="login_usr" /></li></ul>
     <ul><label for="password">Mot de passe</label></ul>
     <ul><li><input v-model="mdp" id="mdp_usr" name="mdp_usr" type="password" /></li></ul>
     <ul><li><button @click="getUser">Login</button></li></ul>  
     <ul><li><label for="log">{{ token }}</label></li></ul>
-  </div>
+  </header>
 </template> 
 
 <script>
@@ -25,17 +25,18 @@ export default {
     getUser(){
       
       // console.log(json);
-      this.usr = "alexandretourret@ciblemut.net";
-      this.mdp = "Lucas_0503";
+      // this.usr = "alexandretourret@ciblemut.net";
+      // this.mdp = "Lucas_0503";
       //const json = JSON.stringify({"usr_email" : this.usr, "usr_pwd" : this.mdp})
       axios.post('http://localhost:3000/api/auth/login?id='+this.usr,{"usr_email" : this.usr, "usr_pwd" : this.mdp})
       .then(response => {
         // en cas de réussite de la requête
-        console.log(response.data)
         const token   = JSON.stringify(response.data.token);
         const userId  = JSON.stringify(response.data.userId);
+        const role  = JSON.stringify(response.data.role);
         localStorage.setItem("Token", token);
         localStorage.setItem("userID", userId);
+        localStorage.setItem("role", role);
         this.$router.push("/comments");
       })
     }
@@ -77,5 +78,33 @@ button {
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
+}
+@media screen and (max-width:1024px) {
+    
+    .header,
+    .content {
+        width: 90%;
+    }
+}
+@media screen and (max-width:768px) {
+    
+    .header,
+    .content {
+        width: 98%;
+    }
+    .modif{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .espacement{
+        margin: 0;
+    }
+    .button {
+        width: 50%;
+    }
+    .createcomment {
+        width: 100%;
+    }
 }
 </style>

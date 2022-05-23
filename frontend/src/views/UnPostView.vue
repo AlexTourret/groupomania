@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Header />
+        <HeaderConnect />
             <section>
                 <div class="header">
                     <div>
@@ -29,9 +29,9 @@
                 <div class="content">
                     <p class="modif">
                     <button @click="modifyPost()" v-if="post.user_id === id" class="button" aria-label="Modifier ce post"><i class="fas fa-edit"></i> Modifier ce post</button>
-                    <button @click="deletePost()" v-if="post.user_id === id" class="button espacement" aria-label="Supprimer ce post"><i class="far fa-trash-alt"></i> Supprimer ce post</button>
+                    <button @click="deletePost()" v-if="post.user_id === id || role === 1" class="button espacement" aria-label="Supprimer ce post"><i class="far fa-trash-alt"></i> Supprimer ce post</button>
                     </p>
-                    <hr v-if="post.user_id === id">
+                    <hr v-if="post.user_id === id || role === 1">
                     <img v-if="post.image" :src="post.image" alt="Image du post">
                     <p>{{ post.content }}</p>
                 </div>
@@ -46,10 +46,16 @@
                                 le <b>{{ dateFormat(comment.updatedAt) }}</b>
                                 à <b>{{ hourFormat(comment.updatedAt) }}</b>
                             </p>
-                            <p>
-                                <button v-if="comment.user_id === id" @click="deleteComment(index)" class="button-comment"  aria-label="Supprimer ce commentaire"><img src="../assets/supprimer.png" />
-                                </button>
-                            </p>
+                            <!-- <p> -->
+                                <table>
+                                <td>
+                                    <button v-if="comment.user_id === id || role === 1" @click="deleteComment(index)" aria-label="Supprimer ce commentaire"> <i class="fas fa-times"></i></button>
+                                    <button @click="signalComments(index)" aria-label="Signaler ce commentaire"><i class="fas fa-bell"></i> </button>
+                                </td>
+                                </table>
+                                <!-- <button v-if="comment.user_id === id || role === 1" @click="deleteComment(index)" class="button-comment"  aria-label="Supprimer ce commentaire"><img src="../assets/supprimer.png" />
+                                </button> -->
+                            <!-- </p> -->
                         </div>                        
                         <hr>
                         <p class="comment-message">{{ comment.message }}</p>
@@ -71,14 +77,14 @@
 </template>
 
 <script>
-import Header from "../components/HeaderPage";
+import HeaderConnect from "../components/HeaderConnect";
 import Footer from "../components/FooterPage";
 import axios from 'axios';
 
 export default {
     name: 'UnPost',
     components: {
-        Header,
+        HeaderConnect,
         Footer
     },
     data () {
@@ -99,6 +105,7 @@ export default {
             displayCreateComment: false,
             commentaire:'',
             id:'',
+            role: ''
         }
     },
     methods : {
@@ -116,6 +123,7 @@ export default {
         },
         User() {
             this.id = JSON.parse(localStorage.getItem("userID"))
+            this.role = JSON.parse(localStorage.getItem("role"))
         },
         
         getPost() {
@@ -140,6 +148,26 @@ export default {
             .then(response => (this.comments = response.data))        
             .catch(error => console.log(error))
             .catch(alert)
+        },
+        signalComments(index) {
+            if (confirm("Voulez-vous vraiment signaler ce commentaire") === true) {
+                const config = {
+                headers: {
+                     "Content-type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("Token")}`,
+                }};
+                let data = {
+                    moderate: false
+                }
+                
+                axios.put('http://localhost:3000/api/comments/signal/'+this.comments[index].id, data, config)
+                .then((response) => response.json)
+                .then(data => (this.comments[index] = data))
+                .then(() => {
+                    this.$router.go()
+                })
+                .catch(alert)
+            }
         },
         dateFormat (createdDate) {
             const date = new Date(createdDate)
@@ -255,6 +283,14 @@ textarea {
     display: flex;
     flex-direction: column;
 }
+table {
+    width: 100%;
+    font-size: 1vw;
+    background: #ffd7d7;
+    border: 2px solid #ffd7d7;
+    /* border-radius: 20px; */
+    margin: 0 0 30px 0;
+}
 .button {
   background-color: #ff8080;
   border: none;
@@ -266,6 +302,17 @@ textarea {
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
+}
+button {
+    margin: 0 5px 0 0;
+    padding: 5px 5px ;
+    border: 2px solid #fd2d01;
+    border-radius: 10px;
+    background: #ffd7d7;
+    font-size: 1vw;
+    cursor: pointer;
+    text-decoration: none;
+    color: #000000;
 }
 .buttonenvoyer,
 .buttonannuler {
@@ -316,7 +363,7 @@ textarea {
 }
 .comment {
     border: 2px solid #000000;
-    border-radius: 20px;
+    /* border-radius: 20px; */
     margin-bottom: 20px;
 }
 .comment-info,
