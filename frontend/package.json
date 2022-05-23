@@ -1,13 +1,18 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "private": true,
+  "description": "Développeur web d'Openclassrooms:Projet 7 Groupomania",
+  "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "author": "Tourret Alexandre",
+  "license": "Apache 2.0",
+  "homepage": "https://github.com/AlexTourret/groupomania.git#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.1.1",
     "axios": "^0.26.1",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",

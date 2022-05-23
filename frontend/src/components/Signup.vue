@@ -1,4 +1,5 @@
 <template>
+  <header>
   <li>
     <div class="container">
       <span class="itemlabel"><label for="nom">Nom </label></span>
@@ -15,6 +16,7 @@
   </div>
     <ul><li><button @click="createUser">Sign up</button></li></ul>  
   </li>
+  </header>
 </template> 
 
 <script>
@@ -30,16 +32,30 @@ export default {
   },
   methods :{
     createUser : function(){
-      console.log({"usr_nom":this.nom,"usr_email" : this.usr, "usr_pwd" : this.mdp});
+
+
+
+      if (this.nom === "") {
+          alert("Veuillez remplir votre nom");
+      }
+      
+      if (this.email === "") {
+          alert("Veuillez remplir votre adresse email");
+      }
+
+      if (this.password === "") {
+          alert("Veuillez remplir votre mot de passe");
+      }
       axios.post('http://localhost:3000/api/auth/',{"usr_nom":this.nom,"usr_email" : this.usr, "usr_pwd" : this.mdp})
-      .then(response=> {
-        // en cas de réussite de la requête
-        //this.token = response.data[0];
-        console.log(response.data[0]);
+      .then(() => {
+        alert("Votre inscription est bien prise en compte");
+        this.$router.push("/login")
+      })
         
-    })  
-    }
-  },
+      
+      //}
+    },
+  }
 }
 </script>
 
@@ -91,5 +107,32 @@ button {
   width: 200px;
   align-items: center; 
 }
-
+@media screen and (max-width:1024px) {
+    
+    .header,
+    .content {
+        width: 90%;
+    }
+}
+@media screen and (max-width:768px) {
+    
+    .header,
+    .content {
+        width: 98%;
+    }
+    .modif{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .espacement{
+        margin: 0;
+    }
+    .button {
+        width: 50%;
+    }
+    .createcomment {
+        width: 100%;
+    }
+}
 </style>

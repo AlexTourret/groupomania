@@ -1,6 +1,6 @@
 <template>
     <div class="sujet">
-    <Header />
+    <HeaderConnect />
     <div class="sujet">
     <div><label>Titre</label></div>
     <div><input v-model="post.title" name="titre" /></div> 
@@ -23,13 +23,13 @@
 <script>
 // @ is an alias to /src
 import axios from 'axios';
-import Header from "../components/HeaderPage";
+import HeaderConnect from "../components/HeaderConnect";
 import Footer from "../components/FooterPage";
 
 export default {
     name: 'updatePost',
     components: {
-        Header,
+        HeaderConnect,
         Footer
     },
     data () {

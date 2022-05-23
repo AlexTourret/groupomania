@@ -8,6 +8,8 @@ const post = sequelize.define('post', {
     image: {type: Sequelize.STRING },
     message: {type: Sequelize.TEXT,allowNull: false},
     user_id: {type: Sequelize.INTEGER,allowNull: false},
+    moderate: {type: Sequelize.BOOLEAN,defaultValue: false},
+    
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE,
 })

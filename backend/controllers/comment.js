@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const Comment = require('../models/comments');
 const sequelize = require('../models/database');
 const User = require('../models/users');
+const Post = require('../models/posts');
 const { Op } = require('sequelize');
 
 exports.getPostComment = (req, res, next) => {
@@ -54,17 +55,15 @@ exports.modifyComment = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token.replaceAll("\"",""), process.env.TOKEN );
     const userId = decodedToken.userId
-    
 
-    
     Comment.findOne({ where: { id: req.params.id } }
     ) 
     .then(comment => {
-        
         if (userId === comment.user_id){
             const modifyComment = {
                 date : req.body.date,
-                message : req.body.message                    
+                message : req.body.message
+                                    
             }
             Comment.update(modifyComment,
                 { 
@@ -77,4 +76,67 @@ exports.modifyComment = (req, res, next) => {
     }
     })
     .catch(error => res.status(400).json({error}));
-  };  
+  };
+
+  exports.moderateComment = (req, res, nest) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token.replaceAll("\"",""), process.env.TOKEN );
+    const userId = decodedToken.userId;
+    const role = decodedToken.role
+    
+    Comment.findOne({ where: { id: req.params.id }})
+    .then(() => {
+        if (role === 1) {
+            const moderation = {
+                moderate : req.body.moderate
+            };
+
+            Comment.update(moderation, { where: { id: req.params.id }})
+            .then(() => { res.status(201).json({ message: 'Moderation effectuée !' })})
+            .catch(error => res.status(400).json({ error }));
+        } else {
+            res.status(401).json({
+                message: 'Requête non autorisée !' 
+            });
+        }
+    })
+    .catch(error => res.status(500).json({ error }));
+} 
+
+
+exports.signalComment = (req, res, nest) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token.replaceAll("\"",""), process.env.TOKEN );
+    const userId = decodedToken.userId;
+    const role = decodedToken.role
+    Comment.findOne({ where: { id: req.params.id }})
+    .then(() => {
+        if (role === 0) {
+            const moderation = {
+                moderate : false
+            };
+            
+            Comment.update(moderation, { where: { id: req.params.id }})
+            .then(() => { res.status(201).json({ message: 'Moderation effectuée !' })})
+            .catch(error => res.status(400).json({ error }));
+        } else {
+            res.status(401).json({
+                message: 'Requête non autorisée !' 
+            });
+        }
+    })
+    .catch(error => res.status(500).json({ error }));
+} 
+exports.getAllComments = (req, res, next) => {
+    Comment.findAll({
+        include: [{
+            model : User
+        },{
+            model : Post
+        }],
+        order: [["updatedAt", "ASC"]]
+    })
+
+    .then( comments => res.status(200).json(comments))
+    .catch( error => res.status(400).json({error}))
+};

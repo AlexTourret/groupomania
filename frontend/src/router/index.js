@@ -46,6 +46,22 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import('../views/UpdatePost.vue')
+  },
+  {
+    path: '/moderate/posts',
+    name: 'ModeratePosts',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import('../views/ModeratePost.vue')
+  },
+  {
+    path: '/moderate/comments',
+    name: 'ModerateComments',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import('../views/ModerateComments.vue')
   }
 ]
 

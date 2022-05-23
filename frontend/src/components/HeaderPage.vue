@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <header class="container">
     <nav><img alt="Vue logo" src="../assets/Icon-titre2.png"></nav>
   <nav>
     <nav>
@@ -8,7 +8,7 @@
       <a><router-link to="/signup">S'inscrire</router-link></a>
     </nav>
   </nav>
-  </div>
+  </header>
   <router-view/>
 </template>
 
@@ -24,13 +24,11 @@ export default {
     disconnectUser() {
       localStorage.clear();
       this.user_id =localStorage.getItem('userID');
-      console.log("disconnected:"+this.user_id);
       this.$router.push("/")
     }  
   },
   mounted(){
     this.user_id = localStorage.getItem('userID');
-    console.log("mounted:"+this.user_id);
   }
 }
 </script>
@@ -82,11 +80,29 @@ nav {
     width: 900px;
     margin: auto;
 }
-@media all 
-{
-    #bloc_page
-    {
-        width: auto;
-    }
+@media screen and (max-width:1024px) {
+  header {
+    flex-direction: column;
+  }
+  img {
+    margin-bottom: 30px;
+  }
+  .link {
+    padding: 0 30px;
+    font-size: 20px;
+  }
+}
+@media screen and (max-width:768px) {
+  header {
+    flex-direction: column;
+  }
+  img {
+    margin-bottom: 4vw;
+    height: 60px;
+  }
+  .link {
+    padding: 0 20px;
+    font-size: 15px;
+  }
 }
 </style>
