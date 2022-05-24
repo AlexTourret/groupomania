@@ -32,14 +32,14 @@ exports.deleteComment = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token.replaceAll("\"",""), process.env.TOKEN );
     const userId = decodedToken.userId
-   
+    const role = decodedToken.role
     Comment.findOne(
         { where: 
             { id: req.params.id } 
         }
     )
     .then(comment => { 
-        if (userId === comment.user_id){
+        if (userId === comment.user_id || role === 0 || role === 1){
             Comment.destroy({ where: { id: req.params.id }
             })
             .then(comment => res.status(200).json({ message: 'commentaire supprimé !' }))
