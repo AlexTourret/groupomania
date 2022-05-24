@@ -52,14 +52,14 @@ exports.deletePost = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token.replaceAll("\"",""), process.env.TOKEN );
     const userId = decodedToken.userId
-   
+    const role = decodedToken.role
     Post.findOne(
         { where: 
             { id: req.params.id } 
         }
     )
     .then(post => { 
-        if (userId === post.user_id){
+        if (userId === post.user_id || role === 0 || role === 1){
             if (post.image != null) {
                 const filename = post.image.split('/images/posts/')[1];
                 fs.unlink(`images/posts/${filename}`, () => {
